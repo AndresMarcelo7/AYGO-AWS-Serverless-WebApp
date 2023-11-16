@@ -16,9 +16,9 @@ This project is forked from [AWS samples Repository](https://github.com/aws-samp
 ![error amplify with ECI educate account ](img/erroramplify.png) 
 So its easier to test it using a personal account or testing it from local environment.
 
-* With an AWS Educate Account, you have to explicitly declare the role you would use extracting the ARN from the account, if you dont do that, the [AWS SAM template](./template.yml) will fail when deploying because you dont have permission to create Roles.
+* With an AWS Educate Account, you have to explicitly declare the role you would use extracting the ARN from the account, if you dont do that, the [AWS SAM template](./template.yaml) will fail when deploying because you dont have permission to create Roles.
 
-* Make sure you use lowercase naming the stack and avoid special characters, the [AWS SAM template](./template.yml) will create resources using that name.
+* Make sure you use lowercase naming the stack and avoid special characters, the [AWS SAM template](./template.yaml) will create resources using that name.
 
 * If you fork the original repository -> [AWS samples Repository](https://github.com/aws-samples/lambda-refarch-webapp) check the nodeJS code, because some parts of the code make calls to functions that dont match their parameters, in this repository, the code is corrected.
 
