@@ -1,4 +1,29 @@
-# Serverless Reference Architecture: Web Application
+# AYGO WORKSHOP - SERVERLESS REFERENCE ARCHITECTURE: WEB APPLICATION
+
+In this project we'll take a look of the process creation and deployment of an API integrated with Cognito for user authentication and management, the purpouse of this workshop is to understand how to impleent authentication/authorization using AWS Service Cognito implementing a basic Todo web application.
+
+# Workshop Evidence
+
+[The evidence of the created resources and the app working with cognito is in this link](https://youtu.be/MGFfokZL1Z8)
+
+## Before we start
+
+This project is forked from [AWS samples Repository](https://github.com/aws-samples/lambda-refarch-webapp) and implementing using an AWS Educate account, so during the implementation of this project I found some limitations that the authors do not mention.
+
+### Limitations
+
+* With an AWS Educate Account, if you use the LabRole for the deployment, it denies access to take the resources when deploying the frontend:
+![error amplify with ECI educate account ](img/erroramplify.png) 
+So its easier to test it using a personal account or testing it from local environment.
+
+* With an AWS Educate Account, you have to explicitly declare the role you would use extracting the ARN from the account, if you dont do that, the [AWS SAM template](./template.yml) will fail when deploying because you dont have permission to create Roles.
+
+* Make sure you use lowercase naming the stack and avoid special characters, the [AWS SAM template](./template.yml) will create resources using that name.
+
+* If you fork the original repository -> [AWS samples Repository](https://github.com/aws-samples/lambda-refarch-webapp) check the nodeJS code, because some parts of the code make calls to functions that dont match their parameters, in this repository, the code is corrected.
+
+
+# AWS Documentation for the workshop 
 
 README Languages: 
 [PT](README/README-PT.md) 
@@ -58,28 +83,6 @@ export STACK_NAME=<a unique name for your CloudFormation stack>
 
 The script will use the SAM CLI to build your backend functions, and then the guided deployment feature of the SAM CLI for the initial backend deployment. You will be prompted for a set of parameters, and can accept the defaults for all parameters with the exception of the GitHub Repository URL and the GitHub OAuth token.
 
-### Building the Application Step by Step
-
-Alternatively, you could run the build steps yourself in the CLI:
-
-#### Build the backend functions
-
-The AWS SAM CLI comes with abstractions for a number of Lambda runtimes to build your dependencies, and copies the source code into staging folders so that everything is ready to be packaged and deployed. The `sam build` command builds any dependencies that your application has, and copies your application source code to folders under aws-sam/build to be zipped and uploaded to Lambda.
-
-```bash
-sam build --use-container
-```
-
-#### Package the backend
-
-Next, run *sam package*.  This command takes your Lambda handler source code and any third-party dependencies, zips everything, and uploads the zip file to your Amazon S3 bucket. That bucket and file location are then noted in the packaged.yaml file. You use the generated `packaged.yaml` file to deploy the application in the next step.
-
-```bash
-sam package \
-    --output-template-file packaged.yml \
-    --s3-bucket $DEPLOYMENT_BUCKET
-```
-
 #### Deploy the backend
 
 This command deploys your application to the AWS Cloud. It's important that this command explicitly includes both of the following:
@@ -95,29 +98,6 @@ sam deploy \
     --capabilities CAPABILITY_IAM
 ```
 
-#### Testing locally (Optional)
-
-To run lambda function , API Gateway and dynamodb locally follow the steps
-
-To run the dynamodb table locally
-
-```bash
-docker run -p 8000:8000 amazon/dynamodb-local
-```
-
-Create a table in local Dynamodb environment
-
-```bash
-aws dynamodb create-table --table-name TodoTable --attribute-definitions AttributeName=id,AttributeType=S --key-schema AttributeName=id,KeyType=HASH --billing-mode PAY_PER_REQUEST --endpoint-url http://127.0.0.1:8000
-```
-
-Run the sam local module to test the application locally
-
-```bash
-sam local start-api --env-vars todo-src/test/environment/mac.json
-```
-
-Sample file of mac os is `todo-src/test/environment/mac.json`
 
 #### Updating the Front-End Application
 
